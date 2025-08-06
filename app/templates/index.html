@@ -14,38 +14,32 @@
         <section class="card">
             <h2>🔽 Compress PDF</h2>
             <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="pdf_file_compress" accept=".pdf" required>
-                <input type="submit" value="Compress" class="btn">
+                <input type="hidden" name="action" value="compress">
+                <input type="file" name="pdf_file" accept=".pdf,.txt" required>
+                <input type="submit" value="Compress & Download" class="btn">
             </form>
         </section>
-
-        {% if compression_ratio is not none %}
-            <section class="card stats">
-                <h3>📊 Compression Summary</h3>
-                <p><strong>Original Size:</strong> {{ original_size_kb }} KB</p>
-                <p><strong>Compressed Size:</strong> {{ compressed_size_kb }} KB</p>
-                <p><strong>Compression Ratio:</strong> {{ compression_ratio }}%</p>
-
-                {% if ineffective_compression %}
-                    <p class="warning">⚠️ Compression did not reduce file size effectively.</p>
-                {% endif %}
-
-                {% if show_download %}
-                    <a class="btn download" href="{{ url_for('download_file', filename=compressed_filename) }}">
-                        ⬇️ Download Compressed File
-                    </a>
-                {% endif %}
-            </section>
-        {% endif %}
 
         <!-- Decompression Form -->
         <section class="card">
             <h2>🔼 Decompress .huff File</h2>
             <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="pdf_file_decompress" accept=".huff" required>
-                <input type="submit" value="Decompress" class="btn">
+                <input type="hidden" name="action" value="decompress">
+                <input type="file" name="huff_file" accept=".huff" required>
+                <input type="submit" value="Decompress & Download" class="btn">
             </form>
         </section>
+
+        {% if show_download %}
+        <section class="card">
+            <h2>✅ Compression Successful</h2>
+
+            {% if ineffective_compression %}
+                <p style="color: red;">⚠️ Compression ineffective (file may be already optimized)</p>
+            {% endif %}
+            <a href="{{ url_for('download_file', filename=compressed_filename) }}" class="btn">Download Compressed File</a>
+        </section>
+        {% endif %}
     </div>
 
 </body>

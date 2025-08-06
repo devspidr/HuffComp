@@ -53,16 +53,13 @@ def compressPdfFile(inputPdfPath, compressedFolder):
     with open(inputPdfPath, "rb") as inputFile:
         fileData = inputFile.read()
 
-    # Count frequency of each byte
     frequencyTable = defaultdict(int)
     for byte in fileData:
         frequencyTable[byte] += 1
 
-    # Build Huffman tree and codes
     tree_root = buildHuffmanTree(frequencyTable)
     codeMap = generateHuffmanCodes(tree_root)
 
-    # Encode data
     encodedData = encodeInputData(fileData, codeMap)
     extraPadding = 8 - len(encodedData) % 8
     encodedData = f"{'0' * extraPadding}{encodedData}"
@@ -71,14 +68,11 @@ def compressPdfFile(inputPdfPath, compressedFolder):
     for i in range(0, len(encodedData), 8):
         byteArray.append(int(encodedData[i:i + 8], 2))
 
-    # Prepare output file path
     filename = os.path.basename(inputPdfPath).split('.')[0]
     compressedOutputPath = os.path.join(compressedFolder, f"{filename}.huff")
 
-    # ✅ Ensure the output folder exists
     os.makedirs(compressedFolder, exist_ok=True)
 
-    # Write compressed file
     with open(compressedOutputPath, "wb") as compressedFile:
         compressedFile.write(bytes([extraPadding]))
         compressedFile.write(len(frequencyTable).to_bytes(2, byteorder="big"))
@@ -105,21 +99,16 @@ def decompressPdfFile(inputCompressedPath, decompressedFolder):
         for byte in byteArray:
             encodedData += f"{bin(byte)[2:].zfill(8)}"
 
-    # Remove padding
     encodedData = encodedData[extraPadding:]
 
-    # Decode data
     tree_root = buildHuffmanTree(frequencyTable)
     decodedData = decodeEncodedData(encodedData, tree_root)
 
-    # Prepare output file path
     filename = os.path.basename(inputCompressedPath).split('.')[0]
     outputPdfPath = os.path.join(decompressedFolder, f"{filename}.pdf")
 
-    # ✅ Ensure the output folder exists
     os.makedirs(decompressedFolder, exist_ok=True)
 
-    # Write decompressed PDF
     with open(outputPdfPath, "wb") as decompressedFile:
         decompressedFile.write(decodedData)
 
