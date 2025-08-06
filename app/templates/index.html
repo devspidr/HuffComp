@@ -19,6 +19,25 @@
             </form>
         </section>
 
+        {% if compression_ratio is not none %}
+            <section class="card stats">
+                <h3>📊 Compression Summary</h3>
+                <p><strong>Original Size:</strong> {{ original_size_kb }} KB</p>
+                <p><strong>Compressed Size:</strong> {{ compressed_size_kb }} KB</p>
+                <p><strong>Compression Ratio:</strong> {{ compression_ratio }}%</p>
+
+                {% if ineffective_compression %}
+                    <p class="warning">⚠️ Compression did not reduce file size effectively.</p>
+                {% endif %}
+
+                {% if show_download %}
+                    <a class="btn download" href="{{ url_for('download_file', filename=compressed_filename) }}">
+                        ⬇️ Download Compressed File
+                    </a>
+                {% endif %}
+            </section>
+        {% endif %}
+
         <!-- Decompression Form -->
         <section class="card">
             <h2>🔼 Decompress .huff File</h2>
