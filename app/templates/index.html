@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Huffman Compression Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input[type="file"] {
+            padding: 8px;
+        }
+        input[type="submit"] {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #006f99;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Upload a PDF to Compress</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="pdf_file_compress" accept=".pdf" required>
+        <br>
+        <input type="submit" value="Compress">
+    </form>
+
+    <h2>Upload a .huff File to Decompress</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="pdf_file_decompress" accept=".huff" required>
+        <br>
+        <input type="submit" value="Decompress">
+    </form>
+
+</body>
+</html>
